@@ -1,38 +1,96 @@
 .App {
-  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+h2 {
   color: white;
+  background-color: black;
+  padding: 20px;
+  margin-top: 0px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.App-link {
-  color: #61dafb;
+table {
+  text-align: center;
+  margin: 10px;
+  border-left: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+th,
+td {
+  width: 120px;
+  height: 50px;
+  border-bottom: none;
+  border-right: none;
+}
+
+th {
+  background-color: #ccc;
+  border-top: none;
+}
+
+.comments {
+  width: 220px !important;
+}
+
+form {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 500px;
+  font-size: 16px;
+  margin-right: 10px;
+  outline: none;
+}
+
+svg {
+  padding: 10px;
+  border: none;
+  margin-left: -50px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.calendar {
+  margin: 0px 20px;
+  align-items: center;
+}
+
+.actions span {
+  margin-left: 50px;
+  color: blue;
+  cursor: pointer;
+}
+
+.pagination {
+  background-color: white;
+  box-shadow: 0px 0px 6px #ccc;
+  max-width: 1400px;
+  margin: 30px auto;
+}
+
+.pagination button {
+  margin: 10px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+}
+
+table input {
+  width: 100px !important;
 }
