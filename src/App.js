@@ -14,8 +14,7 @@ function App() {
     originalData,
     setOriginalData,
     searchQuery,
-    setSearchQuery,
-    startDate,
+
     setStartDate,
   } = useContext(TableContext);
 
@@ -36,7 +35,7 @@ function App() {
       .catch((error) => {
         console.error('Error fetching the CSV file:', error);
       });
-  }, []);
+  }, [setCsvData, setOriginalData]);
 
   const handleSearch = (e) => {
     e.preventDefault(); // Prevent form submission refresh

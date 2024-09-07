@@ -45,7 +45,7 @@ const DataTable = ({ onSave }) => {
   // Update total pages
   useEffect(() => {
     setTotalPages(Math.ceil(csvData.length / rowsPerPage));
-  }, [csvData, rowsPerPage]);
+  }, [csvData, rowsPerPage, setTotalPages]);
 
   // Pagination range
   const pageRange = 20;
