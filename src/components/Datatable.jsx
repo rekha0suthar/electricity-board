@@ -86,14 +86,11 @@ const DataTable = () => {
             <th>Applicant Name</th>
             <th>Gender</th>
             <th>Address</th>
-            <th>Ownership</th>
             <th>GovtID Type</th>
             <th>ID Number</th>
             <th>Category</th>
             <th>Load Applied (in KV)</th>
             <th>Date of Application</th>
-            <th>Date of Approval</th>
-            <th>Modified Date</th>
             <th>Status</th>
             <th>Reviewer ID</th>
             <th>Reviewer Name</th>
@@ -128,7 +125,7 @@ const DataTable = () => {
                   row.Gender
                 )}
               </td>
-              <td>
+              <td className="address">
                 {editRowIndex === index ? (
                   <input
                     type="text"
@@ -139,17 +136,7 @@ const DataTable = () => {
                   `${row.District} ${row.State}, ${row.Pincode}`
                 )}
               </td>
-              <td>
-                {editRowIndex === index ? (
-                  <input
-                    type="text"
-                    value={editedRow.Ownership}
-                    onChange={(e) => handleChange(e, 'Ownership')}
-                  />
-                ) : (
-                  row.Ownership
-                )}
-              </td>
+
               <td>{row.GovtID_Type}</td>
               <td>{row.ID_Number}</td>
               <td>
@@ -175,8 +162,6 @@ const DataTable = () => {
                 )}
               </td>
               <td>{row.Date_of_Application}</td>
-              <td> {row.Date_of_Approval ? row.Date_of_Approval : 'NA'}</td>
-              <td>{row.Modified_Date}</td>
               <td>
                 {editRowIndex === index ? (
                   <input
