@@ -1,75 +1,23 @@
-import React, { useEffect, useContext } from 'react';
-import { MdEdit, MdSave } from 'react-icons/md'; // Add Save icon
-import { TableContext } from '../context/tableContext';
+import React from 'react';
+import { MdEdit, MdSave } from 'react-icons/md';
 import { GrView } from 'react-icons/gr';
 import Popup from './Popup';
+import useTable from '../customHooks/useTable'; // Import the custom hook
 
 const DataTable = () => {
   const {
-    editRowIndex,
-    setEditRowIndex,
-    editedRow,
-    setEditedRow,
-    currentPage,
-    setCurrentPage,
-    rowsPerPage,
+    currentRows,
     totalPages,
-    setTotalPages,
-    csvData,
-    setCsvData,
+    currentPage,
+    handlePageChange,
+    editRowIndex,
+    editedRow,
+    handleEditClick,
+    handleSaveClick,
+    handleChange,
+    handlePopup,
     isShow,
-    setIsShow,
-    setClickedId,
-  } = useContext(TableContext);
-
-  // Calculate the index range for the current page
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = csvData.slice(indexOfFirstRow, indexOfLastRow);
-
-  // Change page handler
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleEditClick = (index, row) => {
-    setEditRowIndex(index); // Set the index of the row being edited
-    setEditedRow({ ...row }); // Store the current row data in state
-  };
-
-  // Function to handle editing and saving changes
-
-  const handleSaveClick = () => {
-    const id = parseInt(editedRow.ID) - 1;
-    // Convert the Load_Applied value to a number
-    const loadApplied = parseFloat(editedRow['Load_Applied (in KV)']);
-
-    // Validate the Load_Applied value
-    if (isNaN(loadApplied) || loadApplied > 200) {
-      alert('Load cannot be more than 200');
-    } else {
-      const updatedData = [...csvData]; // Make a copy of csvData
-      updatedData[id] = editedRow; // Update the specific row
-      setCsvData(updatedData); // Update the state with the new data
-    }
-    setEditRowIndex(null); // Exit edit mode
-    alert(`Row ${id + 1} has been updated successfully`);
-  };
-
-  const handleChange = (e, field) => {
-    setEditedRow({ ...editedRow, [field]: e.target.value }); // Update edited row data
-  };
-
-  const handlePopup = (id) => {
-    setIsShow(!isShow);
-    setClickedId(parseInt(id));
-    console.log(id, isShow, csvData);
-  };
-
-  // Update total pages
-  useEffect(() => {
-    setTotalPages(Math.ceil(csvData.length / rowsPerPage));
-  }, [csvData, rowsPerPage, setTotalPages]);
+  } = useTable();
 
   // Pagination range
   const pageRange = 20;
@@ -94,7 +42,6 @@ const DataTable = () => {
             <th>Status</th>
             <th>Reviewer ID</th>
             <th>Reviewer Name</th>
-            <th>Reviewer Comments</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -125,13 +72,28 @@ const DataTable = () => {
                   row.Gender
                 )}
               </td>
-              <td className="address">
+              <td className={editRowIndex === index ? 'edit' : 'address'}>
                 {editRowIndex === index ? (
-                  <input
-                    type="text"
-                    value={`${editedRow.District} ${editedRow.State}, ${editedRow.Pincode}`}
-                    onChange={(e) => handleChange(e, 'District')}
-                  />
+                  <>
+                    <input
+                      type="text"
+                      value={editedRow.District}
+                      onChange={(e) => handleChange(e, 'District')}
+                      placeholder="District"
+                    />
+                    <input
+                      type="text"
+                      value={editedRow.State}
+                      onChange={(e) => handleChange(e, 'State')}
+                      placeholder="State"
+                    />
+                    <input
+                      type="text"
+                      value={editedRow.Pincode}
+                      onChange={(e) => handleChange(e, 'Pincode')}
+                      placeholder="Pincode"
+                    />
+                  </>
                 ) : (
                   `${row.District} ${row.State}, ${row.Pincode}`
                 )}
@@ -185,17 +147,7 @@ const DataTable = () => {
                   row.Reviewer_Name
                 )}
               </td>
-              <td className="comments">
-                {editRowIndex === index ? (
-                  <input
-                    type="text"
-                    value={editedRow.Reviewer_Comments}
-                    onChange={(e) => handleChange(e, 'Reviewer_Comments')}
-                  />
-                ) : (
-                  row.Reviewer_Comments
-                )}
-              </td>
+
               <td className="actions">
                 {editRowIndex === index ? (
                   <span onClick={handleSaveClick}>
