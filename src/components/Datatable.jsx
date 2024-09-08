@@ -1,8 +1,10 @@
 import React, { useEffect, useContext } from 'react';
 import { MdEdit, MdSave } from 'react-icons/md'; // Add Save icon
 import { TableContext } from '../context/tableContext';
+import { GrView } from 'react-icons/gr';
+import Popup from './Popup';
 
-const DataTable = ({ onSave }) => {
+const DataTable = () => {
   const {
     editRowIndex,
     setEditRowIndex,
@@ -14,6 +16,10 @@ const DataTable = ({ onSave }) => {
     totalPages,
     setTotalPages,
     csvData,
+    setCsvData,
+    isShow,
+    setIsShow,
+    setClickedId,
   } = useContext(TableContext);
 
   // Calculate the index range for the current page
@@ -31,15 +37,33 @@ const DataTable = ({ onSave }) => {
     setEditedRow({ ...row }); // Store the current row data in state
   };
 
+  // Function to handle editing and saving changes
+
   const handleSaveClick = () => {
     const id = parseInt(editedRow.ID) - 1;
-    onSave(id, editedRow); // Call the onSave function passed from the parent
+    // Convert the Load_Applied value to a number
+    const loadApplied = parseFloat(editedRow['Load_Applied (in KV)']);
+
+    // Validate the Load_Applied value
+    if (isNaN(loadApplied) || loadApplied > 200) {
+      alert('Load cannot be more than 200');
+    } else {
+      const updatedData = [...csvData]; // Make a copy of csvData
+      updatedData[id] = editedRow; // Update the specific row
+      setCsvData(updatedData); // Update the state with the new data
+    }
     setEditRowIndex(null); // Exit edit mode
     alert(`Row ${id + 1} has been updated successfully`);
   };
 
   const handleChange = (e, field) => {
     setEditedRow({ ...editedRow, [field]: e.target.value }); // Update edited row data
+  };
+
+  const handlePopup = (id) => {
+    setIsShow(!isShow);
+    setClickedId(parseInt(id));
+    console.log(id, isShow, csvData);
   };
 
   // Update total pages
@@ -151,7 +175,7 @@ const DataTable = ({ onSave }) => {
                 )}
               </td>
               <td>{row.Date_of_Application}</td>
-              <td>{row.Date_of_Approval}</td>
+              <td> {row.Date_of_Approval ? row.Date_of_Approval : 'NA'}</td>
               <td>{row.Modified_Date}</td>
               <td>
                 {editRowIndex === index ? (
@@ -193,15 +217,21 @@ const DataTable = ({ onSave }) => {
                     <MdSave />
                   </span>
                 ) : (
-                  <span onClick={() => handleEditClick(index, row)}>
-                    <MdEdit />
-                  </span>
+                  <>
+                    <span onClick={() => handleEditClick(index, row)}>
+                      <MdEdit />
+                    </span>
+                    <span onClick={() => handlePopup(index)}>
+                      <GrView />
+                    </span>
+                  </>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {isShow && <Popup />}
       {/* Pagination Controls */}
       <div className="pagination">
         <button

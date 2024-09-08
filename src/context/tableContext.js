@@ -18,6 +18,10 @@ const TableContext = createContext({
   rowsPerPage: 20,
   totalPages: 1,
   setTotalPages: () => {},
+  isShow: false,
+  setIsShow: () => {},
+  clickedId: null,
+  setClickedId: () => {},
 });
 
 const TableProvider = ({ children }) => {
@@ -29,8 +33,10 @@ const TableProvider = ({ children }) => {
   const [editRowIndex, setEditRowIndex] = useState(null); // Track which row is being edited
   const [editedRow, setEditedRow] = useState({}); // Track edits for the current row
   const [currentPage, setCurrentPage] = useState(1); // Current page number
-  const [rowsPerPage] = useState(20); // Number of rows per page
+  const [rowsPerPage] = useState(10); // Number of rows per page
   const [totalPages, setTotalPages] = useState(1); // Total number of pages
+  const [isShow, setIsShow] = useState(false);
+  const [clickedId, setClickedId] = useState(null);
   return (
     <TableContext.Provider
       value={{
@@ -51,6 +57,10 @@ const TableProvider = ({ children }) => {
         rowsPerPage,
         totalPages,
         setTotalPages,
+        isShow,
+        setIsShow,
+        clickedId,
+        setClickedId,
       }}
     >
       {children}

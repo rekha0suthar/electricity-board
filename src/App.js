@@ -9,12 +9,10 @@ import Form from './components/Form';
 
 function App() {
   const {
-    csvData,
     setCsvData,
     originalData,
     setOriginalData,
     searchQuery,
-
     setStartDate,
   } = useContext(TableContext);
 
@@ -48,7 +46,6 @@ function App() {
         String(item.ID_Number).includes(searchQuery)
       );
     }
-
     setCsvData(filteredData); // Update the filtered data
   };
 
@@ -68,30 +65,13 @@ function App() {
     }
   };
 
-  // Function to handle editing and saving changes
-  const handleSave = (index, updatedRow) => {
-    // Convert the Load_Applied value to a number
-    const loadApplied = parseFloat(updatedRow['Load_Applied (in KV)']);
-
-    // Validate the Load_Applied value
-    if (isNaN(loadApplied) || loadApplied > 200) {
-      alert('Load cannot be more than 200');
-    } else {
-      const updatedData = [...csvData]; // Make a copy of csvData
-      updatedData[index] = updatedRow; // Update the specific row
-      setCsvData(updatedData); // Update the state with the new data
-    }
-  };
-
   return (
     <div className="App">
       <h2>Electricity Board</h2>
-
       {/* Search form */}
       <Form handleDateFilter={handleDateFilter} handleSearch={handleSearch} />
-
       {/* Table to display the filtered CSV data */}
-      <DataTable onSave={handleSave} />
+      <DataTable />
     </div>
   );
 }
