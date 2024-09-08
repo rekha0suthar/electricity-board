@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { TableContext } from '../context/tableContext';
-
+import '../css/popup.css';
 const Popup = () => {
   const { csvData, clickedId, setIsShow } = useContext(TableContext);
 

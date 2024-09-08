@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { TableContext } from '../context/tableContext';
 import { IoIosSearch } from 'react-icons/io';
-
+import '../css/form.css';
 const Form = ({ handleDateFilter, handleSearch }) => {
   const { searchQuery, setSearchQuery } = useContext(TableContext);
   return (
